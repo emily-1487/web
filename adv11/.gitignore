@@ -1,0 +1,8 @@
+#忽略以下檔案
+*.env
+*.mp4
+*.gif
+#忽略以下資料夾
+.idea/
+.vscode
+__pycache__/
