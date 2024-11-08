@@ -38,6 +38,13 @@ async def hello(interaction: discord.Interaction):
 async def weather(interaction: discord.Integration, city: str, forecast: bool = False):
     await interaction.response.defer()
     unit_symbol = "C" if weather_api.units == "metric" else "F"
+    if not forecast:
+        info = weather_api.get_current_weather(city)
+        if "weather" in info and "main" in info:
+            current_temperture = info["main"]["temp"]
+            weather_description = info["weather"][0]["description"]
+            icon_code = info["weather"][0]["icon"]
+            icon_url = weather_api.get_icon_url(icon_code)
 
 
 ####################################啟動##################################
