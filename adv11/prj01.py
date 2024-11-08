@@ -2,6 +2,7 @@
 import discord
 import os
 from dotenv import load_dotenv
+from myfuntion.myfuntion import WeatherAPI
 
 ####################################初始化########################################
 load_dotenv()
@@ -9,6 +10,7 @@ intents = discord.Intents.default()
 intents.message_content = True
 bot = discord.Client(intents=intents)
 tree = discord.app_commands.CommandTree(bot)
+weather_api = WeatherAPI(os.getenv("WEATHER_API_KEY"))
 
 
 ####################################事件####################################
@@ -30,6 +32,12 @@ async def on_message(message):
 @tree.command(name="hello", description="Say hello to the bot")
 async def hello(interaction: discord.Interaction):
     await interaction.response.send_message("Hey!")
+
+
+@tree.command(name="Weather", description="取得天氣資訊")
+async def weather(interaction: discord.Integration, city: str, forecast: bool = False):
+    await interaction.response.defer()
+    unit_symbol = "C" if weather_api.units == "metric" else "F"
 
 
 ####################################啟動##################################
