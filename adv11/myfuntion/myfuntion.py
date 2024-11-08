@@ -1,7 +1,7 @@
 import requests
 
 
-class WeatherAPI:
+class WeatherAPI:  #
     def __init__(self, api_key, units="metric", lang="zh_tw"):
         self.api_key = api_key
         self.units = units
@@ -20,10 +20,12 @@ class WeatherAPI:
         response = requests.get(send_url)
         response.raise_for_status()
         return response.json()
+
     def get_icon_url(self, icon_code):
         return f"{self.icon_base_url}{icon_code}.@2x.png"
+
     def get_icon_url(self, icon_code):
-        icon_url =self.get_icon_url(icon_code)
+        icon_url = self.get_icon_url(icon_code)
         response = requests.get(icon_url)
         if response.status_code == 200:
             return response.content
