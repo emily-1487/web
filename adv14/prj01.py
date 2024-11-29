@@ -59,6 +59,26 @@ async def on_message(message):
                 ]
                 + history
             )
+            try:
+                response = openai.chat.completions.create(
+                    model="gpt-4o",
+                    messages=messages,
+                    temperature=0.5,
+                )
+                answer = response.choices[0].message.content
+                if answer == "恭喜答對":
+                    game_data["solved"] = True
+                    await message.channel.send("恭喜你們，答對了!遊戲結束！")
+                    channel_games.pop(channel_id)
+                else:
+                    history.append({"role": "assistant", "content": answer})
+                    channel_games[channel_id]["history"] = history
+                    await message.channel.send(answer)
+                    print(messages)
+            except Exception as e:
+                await message.channel.send(f"抱歉，發生錯誤：{e}")
+    else:
+        await bot.proses_command(message)
 
 
 ##############指令###################
