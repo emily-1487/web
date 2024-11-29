@@ -15,6 +15,7 @@ weather_api = WeatherAPI(os.getenv("WEATHER_API_KEY"))
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 
+# 333333
 ####################事件###################
 @bot.event
 async def on_ready():
