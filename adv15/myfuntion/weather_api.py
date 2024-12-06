@@ -66,36 +66,3 @@ class WeatherAPI:  #
                 description = forecast["weather"][0]["description"]
                 icon_code = forecast["weather"][0]["icon"]
                 icon_url = self.get_icon_url(icon_code)
-                embed = discord.Embed(
-                    title=f"{city}天氣預報{dt_txt}",
-                    description=f"描述:{description}",
-                    color=0x1E90FF,
-                )
-                embed.set_thumbnail(url=icon_url)
-                embed.add_field(
-                    name="溫度",
-                    value=f"{temp}度{unit_symbol}",
-                    inline=False,
-                )
-                embeds.append(embed)
-            return embed
-
-    async def analyze_weather(self, city_name, forecast_data, openai_client: openai):
-        try:
-            response = openai_client.chat.completions.create(
-                model="gpt-4o",
-                messages=[
-                    {
-                        "role": "system",
-                        "content": "你是一位專業的氣象分析師，請根據天氣預報回答用戶的問題。",
-                    },
-                    {
-                        "role": "user",
-                        "content": f"以下是{city_name}的未來天氣預報，請根據這些數據提供詳細的天氣分析和建議。\n{forecast_data}",
-                    },
-                ],
-                temperature=0.2,
-            )
-            return response.choices[0].message.content
-        except Exception as e:
-            raise Exception(f"天氣分析時發生錯誤:{str(e)}")
